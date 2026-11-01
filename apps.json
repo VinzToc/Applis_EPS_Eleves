@@ -1,4 +1,4 @@
 [
- {"id":"step_eps_eleve","nom":"Step – Carnet élève","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/index.html","icon":"icons/icon-step-eleve.png","emoji":"👟"}
+ {"id":"step_eps_eleve","nom":"Step – Carnet élève","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-step-eleve.png","emoji":"👟"}
  {"id":"exemple","nom":"Prochaine app","desc":"Ajoutez-la dans apps.json","url":"","emoji":"➕","couleur":"#b030ff,#6a0fd0"}
 ]

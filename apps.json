@@ -1,5 +1,5 @@
 [
- {"id":"step_eps_eleve","nom":"Carnet de step","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-step-eleve.png","emoji":"👟"},
+ {"id":"step_eps_eleve","nom":"Carnet de Step","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-step-eleve.png","emoji":"👟"},
  {"id":"tabatimer","nom":"TabaTimer","desc":"Un timer tabata pour structurer vos séances dportives","url":"https://vinztoc.github.io/TabaTimer/","icon":"icons/icon-192-tabatimer.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"orienruneleves","nom":"OrienRun Eleves","desc":"Course d'orientation avec balises GPS et QR","url":"https://vinztoc.github.io/OrienRun_Eleves/","icon":"icons/icon-orienrun.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"statobs","nom":"StatObs","desc":"Statistiques sur observables quantifiables du joueur ou de l'équipe en activités d'opposition.","url":"https://vinztoc.github.io/StatObs/","icon":"icons/icon-192-StatObs.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},

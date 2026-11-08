@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Applis EPS Élèves</title><link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#14151a">
+<link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1b2a49;min-height:100vh;background:#14151a;padding-bottom:24px}
+header{display:flex;align-items:center;gap:14px;padding:18px 20px;max-width:900px;margin:auto}
+header img{width:64px;height:64px;filter:drop-shadow(0 4px 8px #0003)}
+h1{margin:0;font-size:1.6rem;color:#fff;text-shadow:0 2px 6px #0007}header p{margin:2px 0 0;font-size:.85rem;font-weight:600;color:#fff}
+main{max-width:900px;margin:auto;padding:0 16px}
+.card{background:#fff;border-radius:22px;border:3px solid #fff;padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #1b2a4922}
+h2{margin:0 0 12px;font-size:1.1rem}
+.btn{border:0;border-radius:14px;padding:11px 18px;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(#ffa21f,#ff5e00);box-shadow:0 5px 12px #ff5e0066,inset 0 2px 0 #fff6;font-size:.95rem}
+.btn.b{background:linear-gradient(#1f8bff,#0040d0);box-shadow:0 5px 12px #0040d066,inset 0 2px 0 #fff6}
+.btn.r{background:linear-gradient(#9aa4b5,#6b7587);box-shadow:0 5px 12px #0003,inset 0 2px 0 #fff6}.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+label{display:block;font-weight:700;margin:8px 0}input{display:block;width:100%;margin-top:4px;padding:10px;border-radius:12px;border:2px solid #0b4fd033;font-size:1rem;background:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:12px}
+.tile{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:12px 8px;border-radius:18px;color:#1b2a49;background:linear-gradient(160deg,#e6e6e6,#C0C0C0);text-decoration:none;box-shadow:0 6px 14px #0003,inset 0 -3px 0 #0002;transition:.15s}
+.tile::before{content:"";position:absolute;left:0;right:0;top:0;height:42%;background:linear-gradient(#ffffff70,#ffffff00);pointer-events:none}.tile>*{position:relative}
+.tile:active{transform:scale(.96)}.tile:hover{transform:translateY(-4px)}.tile .ic{font-size:2.1rem;line-height:1}.tile b{font-size:.82rem;line-height:1.15}.tile.off{filter:grayscale(.6);opacity:.6;pointer-events:none}
+.me{font-size:1.05rem;font-weight:700}.rgpd{font-size:.78rem;opacity:.75;line-height:1.4;margin-top:10px}.err{color:#c0392b;font-weight:700;min-height:1.2em}
+ul.dn{list-style:none;padding:0;margin:0}ul.dn details{margin:0}ul.dn summary{cursor:pointer}ul.dn table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:8px;background:#fff;border-radius:8px;overflow:hidden}ul.dn td,ul.dn th{padding:4px 6px;border-bottom:1px solid #0001;text-align:left}ul.dn th{background:#1b2a49;color:#fff}.tw{overflow-x:auto}ul.dn li{padding:8px 12px;margin-bottom:6px;border-radius:12px;background:linear-gradient(160deg,#e6e6e6,#C0C0C0);font-weight:600}
+.foot{max-width:900px;margin:10px auto 0;padding:16px;text-align:center;background:#fff;border-radius:22px;border:3px solid #fff;font-size:.88rem}.foot a{color:#0040d0;font-weight:700}.foot p{margin:6px 0 0}
+.ver{text-align:center;font-weight:700;font-size:.8rem;color:#c9ccd6;margin:10px 0 0}
+</style></head><body>
+<header><img src="icons/logo.png" alt="Logo"><div><h1>Applis EPS Élèves</h1><p>Tes outils pour les séances d'EPS</p></div></header>
+<main>
+ <div class="card"><h2>👤 Qui es-tu ?</h2>
+  <div id="imp"><p style="margin:0 0 8px;font-weight:700">J'ai déjà un fichier de sauvegarde</p>
+   <label class="btn b" style="display:inline-block">📂 Importer mon fichier (.xlsx)<input id="fi" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
+   <div class="err" id="im"></div><p style="margin:12px 0 8px;font-weight:700">Première fois ? Enregistre-toi</p></div>
+  <form id="idf"><label>Nom<input name="nom" autocomplete="family-name" required></label><label>Prénom<input name="prenom" autocomplete="given-name" required></label><label>Classe (ex. 3PM)<input name="classe" autocomplete="off"></label>
+   <div class="err" id="idm"></div>
+   <div class="row"><button class="btn b">✅ Valider</button><button type="button" class="btn r" id="idx">Continuer sans m'identifier</button></div></form>
+  <div id="ido" hidden><p class="me" id="idn"></p><div class="row"><button class="btn r" id="idc">Changer d'élève</button></div></div>
+  <p class="rgpd" id="idt">🔒 Ces informations restent <b>uniquement sur cet appareil</b>. Elles servent à enregistrer tes résultats dans les applis qui en ont besoin. Sans identification, rien n'est enregistré.</p>
+ </div>
+ <div class="card"><h2>🎒 Mes applis</h2><div class="grid" id="apps"></div></div>
+ <div class="card" id="dc" hidden><h2>💾 Mes données</h2><ul class="dn" id="dl"></ul>
+  <div class="row"><button class="btn b" id="dx">⬇ Exporter mes données (.xlsx)</button><button class="btn r" id="dd">🗑 Effacer mes données</button></div>
+  <p class="rgpd">Le fichier .xlsx exporté (un onglet par application, une ligne par saisie) est ta sauvegarde : garde-le sur ton appareil ou ton ENT, réimporte-le si tu changes d'appareil, et remets-le à ton professeur (il l'importe dans Mes Apps EPS). ⚠ Pense à l'exporter avant d'effacer tes données.</p></div>
+</main>
+<footer class="foot"><div><a href="confidentialite.html">Politique de confidentialité</a> · <a href="contact.html">Contact</a></div><p>Applis EPS Élèves · Vincent TOCQUIN – « VinZ Neuron »</p></footer>
+<p class="ver">Version <span id="ver"></span> · données stockées uniquement sur cet appareil</p>
+<script src="version.js"></script><script src="eps-core.js"></script><script src="eleve-core.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#ver').textContent=APP_VERSION;let APPS=[];
+const info=k=>APPS.find(a=>a.id===k)||APPS.find(a=>EPS.norm(a.nom)===EPS.norm(k))||{nom:k,emoji:'🧩'};
+async function refresh(){const e=await ELEVE.courant();
+ $('#idf').hidden=$('#imp').hidden=!!e||ELEVE.sansIdentification();$('#ido').hidden=!e&&!ELEVE.sansIdentification();
+ $('#idn').innerHTML=e?`<b>${esc(e.prenom)} ${esc(e.nom.toUpperCase())}</b>${e.classe?' · '+esc(e.classe):''}`:'Tu utilises les applis sans t\'identifier : rien n\'est enregistré.';
+ $('#dc').hidden=!e;if(!e)return;
+ const D=await ELEVE.donnees(),ks=Object.keys(D).filter(k=>D[k].length);
+ $('#dl').innerHTML=ks.map(k=>{const L=[...D[k]].sort((a,b)=>String(b.Date||'').localeCompare(String(a.Date||''))),cols=[...new Set(L.flatMap(x=>Object.keys(x)))];
+  return `<li><details><summary>${esc(info(k).emoji||'🧩')} <b>${esc(info(k).nom)}</b> : ${D[k].length} saisie(s)</summary><div class="tw"><table><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr>${L.map(x=>`<tr>${cols.map(c=>`<td>${esc(x[c])}</td>`).join('')}</tr>`).join('')}</table></div></details></li>`}).join('')||'<li>Rien d\'enregistré pour le moment. Ton fichier personnel est créé : utilise les applis, il se remplit automatiquement.</li>'}
+$('#idf').onsubmit=async ev=>{ev.preventDefault();const f=ev.target;try{await ELEVE.definir({nom:f.nom.value,prenom:f.prenom.value,classe:f.classe.value});f.reset();$('#idm').textContent=''}catch(x){$('#idm').textContent=x.message}};
+$('#idx').onclick=()=>{try{localStorage.setItem('EPS_ELEVE_SANS_ID','1')}catch(e){}document.dispatchEvent(new Event('eleve-change'))};
+$('#fi').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;const m=$('#im');m.style.color='#c0392b';m.textContent='';
+ try{const r=await ELEVE.importer(f);alert('✅ Sauvegarde restaurée pour '+r.eleve.prenom+' '+r.eleve.nom+(r.multi?'\n(le fichier contenait plusieurs élèves : le premier est sélectionné)':''))}catch(x){m.textContent='❌ '+x.message}};
+$('#idc').onclick=()=>ELEVE.changer();
+$('#dx').onclick=()=>ELEVE.exporter().catch(e=>alert(e.message));
+$('#dd').onclick=async()=>{if(confirm('⚠ As-tu pensé à exporter ta sauvegarde (.xlsx) ?\nEffacer supprime définitivement tes données sur cet appareil.'))await ELEVE.supprimer()};
+document.addEventListener('eleve-change',refresh);addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.json introuvable (erreur '+r.status+') : le fichier est-il bien à la racine du dépôt ?');return r.json()}).then(A=>{if(!Array.isArray(A))throw new Error('apps.json doit être une liste [ … ] d\'applications.');APPS=A;refresh();$('#apps').innerHTML=A.map(a=>`<a class="tile ${a.url?'':'off'}" href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${a.icon?`<img src="${esc(a.icon)}" alt="" width=48 height=48 style="border-radius:12px;box-shadow:0 3px 8px #0004;background:#fff" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`).join('')||'<p class="rgpd">Aucune application pour le moment.</p>'})
+ .catch(e=>{$('#apps').innerHTML='<p class="err">⚠ Catalogue illisible : '+esc(e.message)+'</p>'});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
+refresh();
+</script></body></html>

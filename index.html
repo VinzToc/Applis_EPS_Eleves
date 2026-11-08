@@ -5,7 +5,7 @@
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#1b2a49;min-height:100vh;background:#14151a;padding-bottom:24px}
 header{display:flex;align-items:center;gap:14px;padding:18px 20px;max-width:900px;margin:auto}
-header img{width:64px;height:64px;filter:drop-shadow(0 4px 8px #0003)}
+header img{width:64px;height:64px;background:none;border:0;border-radius:0;box-shadow:none;filter:drop-shadow(0 4px 8px #0006)}
 h1{margin:0;font-size:1.6rem;color:#fff;text-shadow:0 2px 6px #0007}header p{margin:2px 0 0;font-size:.85rem;font-weight:600;color:#fff}
 main{max-width:900px;margin:auto;padding:0 16px}
 .card{background:#fff;border-radius:22px;border:3px solid #fff;padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #1b2a4922}
@@ -63,7 +63,7 @@ $('#idc').onclick=()=>ELEVE.changer();
 $('#dx').onclick=()=>ELEVE.exporter().catch(e=>alert(e.message));
 $('#dd').onclick=async()=>{if(confirm('⚠ As-tu pensé à exporter ta sauvegarde (.xlsx) ?\nEffacer supprime définitivement tes données sur cet appareil.'))await ELEVE.supprimer()};
 document.addEventListener('eleve-change',refresh);addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
-fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.json introuvable (erreur '+r.status+') : le fichier est-il bien à la racine du dépôt ?');return r.json()}).then(A=>{if(!Array.isArray(A))throw new Error('apps.json doit être une liste [ … ] d\'applications.');APPS=A;refresh();$('#apps').innerHTML=A.map(a=>`<a class="tile ${a.url?'':'off'}" href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${a.icon?`<img src="${esc(a.icon)}" alt="" width=48 height=48 style="border-radius:12px;box-shadow:0 3px 8px #0004;background:#fff" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`).join('')||'<p class="rgpd">Aucune application pour le moment.</p>'})
+fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.json introuvable (erreur '+r.status+') : le fichier est-il bien à la racine du dépôt ?');return r.json()}).then(A=>{if(!Array.isArray(A))throw new Error('apps.json doit être une liste [ … ] d\'applications.');APPS=A;refresh();$('#apps').innerHTML=A.map(a=>`<a class="tile ${a.url?'':'off'}" href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${a.icon?`<img src="${esc(a.icon)}" alt="" width=48 height=48 style="filter:drop-shadow(0 3px 6px #0005)" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`).join('')||'<p class="rgpd">Aucune application pour le moment.</p>'})
  .catch(e=>{$('#apps').innerHTML='<p class="err">⚠ Catalogue illisible : '+esc(e.message)+'</p>'});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 refresh();

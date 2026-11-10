@@ -1,8 +1,8 @@
 [
- {"id":"step_eps_eleve","nom":"Carnet de Step","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-step-eleve.png","emoji":"👟"},
+ {"id":"step_eps_eleve","nom":"StepCarnet","desc":"Carnet d'entraînement Step","url":"https://vinztoc.github.io/Step_EPS_Eleve/","icon":"icons/icon-step-eleve.png","emoji":"👟"},
  {"id":"tabatimer","nom":"TabaTimer","desc":"Un timer tabata pour structurer vos séances dportives","url":"https://vinztoc.github.io/TabaTimer/","icon":"icons/icon-192-tabatimer.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"orienruneleves","nom":"OrienRun Eleves","desc":"Course d'orientation avec balises GPS et QR","url":"https://vinztoc.github.io/OrienRun_Eleves/","icon":"icons/icon-orienrun.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
- {"id":"staobseleves","nom":"StatObs Eleves","desc":"Application d'analyse d'observables quantifiables pour les activités physiques","url":"https://vinztoc.github.io/StatObs-Eleves/","icon":"icons/icon-192-StatObs.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"orienruneleves","nom":"OrienRun","desc":"Course d'orientation avec balises GPS et QR","url":"https://vinztoc.github.io/OrienRun_Eleves/","icon":"icons/icon-orienrun.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
+ {"id":"staobseleves","nom":"StatObs","desc":"Application d'analyse d'observables quantifiables pour les activités physiques","url":"https://vinztoc.github.io/StatObs-Eleves/","icon":"icons/icon-192-StatObs.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"chronomulti","nom":"ChronoMulti","desc":"Chrono et timer paramétrable grand format avec enregistrement des données dans Mes Apps EPS","url":"https://vinztoc.github.io/ChronoMulti/","icon":"icons/icon-192-chronomulti.png","emoji":"🧭","couleur":"#b030ff,#6a0fd0"},
  {"id":"lancers","nom":"LancerPerf","desc":"Calcule ta note en javelot, disque et poids et garde tes résultats","url":"https://vinztoc.github.io/Lancers_EPS_Eleves/","icon":"icons/icon-192-LancerProj-Eleves.png","emoji":"🎯","couleur":"#b030ff,#6a0fd0","categorie":"Performances"},
  {"id":"exemple","nom":"Prochaine app","desc":"Ajoutez-la dans apps.json","url":"","emoji":"➕","couleur":"#b030ff,#6a0fd0"}

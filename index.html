@@ -79,9 +79,13 @@ ul.dn{list-style:none;padding:0;margin:0}ul.dn li{padding:10px 12px;margin-botto
 ul.dn summary{cursor:pointer}ul.dn details{margin:0}.tw{overflow-x:auto}
 ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-radius:10px}ul.dn td,ul.dn th{padding:5px 7px;text-align:left}ul.dn th{background:#17458a;position:static;border-radius:0}
 @media(max-width:520px){h1{font-size:1.35rem}header img{width:62px;height:62px}}
-.cats{display:grid;gap:18px}.cat h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--c3,#ffd27a)}
-.cat h3 span{font-size:.7rem;letter-spacing:0;padding:1px 8px;border-radius:999px;background:rgba(255,255,255,.12);color:var(--tx)}
-.cat h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--bd,rgba(255,255,255,.2)),transparent)}
+.cats{display:flex;flex-wrap:wrap;align-items:stretch;row-gap:14px;overflow:hidden;padding:6px 0 4px}
+.cat{display:flex;flex-direction:column;padding:0 11px 0 12px;margin-left:-1px;border-left:1px solid rgba(255,255,255,.2);max-width:calc(100% + 1px)}
+.cat .ct{display:flex;flex-wrap:wrap;gap:10px;flex:1}
+.cat .ct .tile{width:100px}
+.cat h3{margin:8px 0 0;padding:4px 10px;align-self:center;font-size:.64rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--c3,#ffd27a);background:rgba(255,255,255,.07);border-radius:999px;white-space:nowrap}
+.cat h3.vide{visibility:hidden}.cat.ved h3{color:#ffe08a;background:rgba(255,196,60,.14)}
+@media(max-width:520px){.cat .ct .tile{width:92px}.cat{padding:0 7px 0 8px}.cat .ct{gap:8px}}
 </style></head><body>
 <header><img src="icons/logo.png" alt="Logo"><div><h1>Applis EPS Élèves</h1><p>Tes outils pour les séances d'EPS</p></div></header>
 <main>
@@ -132,9 +136,9 @@ function sections(el,T,tf,vide){const on=T.filter(a=>a.url),off=T.filter(a=>!a.u
  if(!T.length){el.className='grid';el.innerHTML=`<p class="rgpd">${vide||'Aucune application pour le moment.'}</p>`;return}
  if(ordre.length<2&&!ved.length){el.className='grid';el.innerHTML=T.map(tf).join('');return}
  el.className='cats';
- el.innerHTML=(ved.length?`<div class="grid">${ved.map(tf).join('')}</div>`:'')
-  +ordre.map(k=>`<section class="cat"><h3>${lib(k)}<span>${G.get(k).length}</span></h3><div class="grid">${G.get(k).map(tf).join('')}</div></section>`).join('')
-  +(off.length?`<div class="grid">${off.map(tf).join('')}</div>`:'')}
+ el.innerHTML=(ved.length?`<section class="cat ved"><div class="ct">${ved.map(tf).join('')}</div><h3>✨ À la une</h3></section>`:'')
+  +ordre.map(k=>`<section class="cat"><div class="ct">${G.get(k).map(tf).join('')}</div><h3>${lib(k)}</h3></section>`).join('')
+  +(off.length?`<section class="cat"><div class="ct">${off.map(tf).join('')}</div><h3 class="vide">&nbsp;</h3></section>`:'')}
 fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.json introuvable (erreur '+r.status+') : le fichier est-il bien à la racine du dépôt ?');return r.json()}).then(A=>{if(!Array.isArray(A))throw new Error('apps.json doit être une liste [ … ] d\'applications.');APPS=A;refresh();sections($('#apps'),A,a=>`<a class="tile ${a.url?'':'off'}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${a.icon?`<img src="${esc(a.icon)}" alt="" width=48 height=48 style="filter:drop-shadow(0 3px 6px #0005)" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`)})
  .catch(e=>{$('#apps').innerHTML='<p class="err">⚠ Catalogue illisible : '+esc(e.message)+'</p>'});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');

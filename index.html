@@ -79,6 +79,9 @@ ul.dn{list-style:none;padding:0;margin:0}ul.dn li{padding:10px 12px;margin-botto
 ul.dn summary{cursor:pointer}ul.dn details{margin:0}.tw{overflow-x:auto}
 ul.dn table{margin-top:8px;font-size:.8rem;background:rgba(0,0,0,.25);border-radius:10px}ul.dn td,ul.dn th{padding:5px 7px;text-align:left}ul.dn th{background:#17458a;position:static;border-radius:0}
 @media(max-width:520px){h1{font-size:1.35rem}header img{width:62px;height:62px}}
+.cats{display:grid;gap:18px}.cat h3{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--c3,#ffd27a)}
+.cat h3 span{font-size:.7rem;letter-spacing:0;padding:1px 8px;border-radius:999px;background:rgba(255,255,255,.12);color:var(--tx)}
+.cat h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--bd,rgba(255,255,255,.2)),transparent)}
 </style></head><body>
 <header><img src="icons/logo.png" alt="Logo"><div><h1>Applis EPS Élèves</h1><p>Tes outils pour les séances d'EPS</p></div></header>
 <main>
@@ -120,7 +123,19 @@ $('#idc').onclick=()=>ELEVE.changer();
 $('#dx').onclick=()=>ELEVE.exporter().catch(e=>alert(e.message));
 $('#dd').onclick=async()=>{if(confirm('⚠ As-tu pensé à exporter ta sauvegarde (.xlsx) ?\nEffacer supprime définitivement tes données sur cet appareil.'))await ELEVE.supprimer()};
 document.addEventListener('eleve-change',refresh);addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
-fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.json introuvable (erreur '+r.status+') : le fichier est-il bien à la racine du dépôt ?');return r.json()}).then(A=>{if(!Array.isArray(A))throw new Error('apps.json doit être une liste [ … ] d\'applications.');APPS=A;refresh();$('#apps').innerHTML=A.map(a=>`<a class="tile ${a.url?'':'off'}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${a.icon?`<img src="${esc(a.icon)}" alt="" width=48 height=48 style="filter:drop-shadow(0 3px 6px #0005)" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`).join('')||'<p class="rgpd">Aucune application pour le moment.</p>'})
+const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion']];
+const catKey=c=>{const k=(c||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();if(k==='tests'||k==='evaluations'||k==='evaluation')return'Evaluations';const f=CATS.find(([n])=>n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()===k);return f?f[0]:'Autres'};
+/* Tuiles regroupées par catégorie : appli « vedette » en tête, sections dans l'ordre de CATS, tuiles inactives à la fin */
+function sections(el,T,tf,vide){const on=T.filter(a=>a.url),off=T.filter(a=>!a.url),ved=on.filter(a=>a.vedette),reste=on.filter(a=>!a.vedette);
+ const G=new Map();reste.forEach(a=>{const k=catKey(a.categorie);if(!G.has(k))G.set(k,[]);G.get(k).push(a)});
+ const ordre=[...CATS.map(c=>c[0]),'Autres'].filter(k=>G.has(k)),lib=k=>(CATS.find(c=>c[0]===k)||[0,'🧩 Autres'])[1];
+ if(!T.length){el.className='grid';el.innerHTML=`<p class="rgpd">${vide||'Aucune application pour le moment.'}</p>`;return}
+ if(ordre.length<2&&!ved.length){el.className='grid';el.innerHTML=T.map(tf).join('');return}
+ el.className='cats';
+ el.innerHTML=(ved.length?`<div class="grid">${ved.map(tf).join('')}</div>`:'')
+  +ordre.map(k=>`<section class="cat"><h3>${lib(k)}<span>${G.get(k).length}</span></h3><div class="grid">${G.get(k).map(tf).join('')}</div></section>`).join('')
+  +(off.length?`<div class="grid">${off.map(tf).join('')}</div>`:'')}
+fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.json introuvable (erreur '+r.status+') : le fichier est-il bien à la racine du dépôt ?');return r.json()}).then(A=>{if(!Array.isArray(A))throw new Error('apps.json doit être une liste [ … ] d\'applications.');APPS=A;refresh();sections($('#apps'),A,a=>`<a class="tile ${a.url?'':'off'}"${tc(a)} href="${esc(a.url)}" target="_blank" rel="noopener" title="${esc(a.desc||'')}"><span class="ic">${a.icon?`<img src="${esc(a.icon)}" alt="" width=48 height=48 style="filter:drop-shadow(0 3px 6px #0005)" onerror="this.replaceWith(document.createTextNode('${esc(a.emoji||'🧩')}'))">`:esc(a.emoji||'🧩')}</span><b>${esc(a.nom)}</b></a>`)})
  .catch(e=>{$('#apps').innerHTML='<p class="err">⚠ Catalogue illisible : '+esc(e.message)+'</p>'});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 refresh();

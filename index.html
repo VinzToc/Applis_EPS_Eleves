@@ -60,6 +60,8 @@ nav button.act{color:var(--onc);border-color:transparent;background:var(--nav);b
 #fiche,.ov{position:fixed;inset:0;z-index:200;background:#000b;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}#fiche[hidden],.ov[hidden]{display:none}
 .ov{align-items:center;padding:16px}
 .fc{position:relative;background:#0f1830;color:var(--tx);border:1px solid var(--bd);width:100%;max-width:560px;max-height:86vh;overflow:auto;border-radius:22px 22px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom))}
+.nvc{border-radius:22px;max-height:86vh;overflow:auto}.nvc h3{margin:0 0 10px;font-size:1.25rem}.nvc h4{margin:14px 0 6px;font-size:1.02rem;color:#ffb347}.nvc h4 small{font-weight:500;opacity:.7}
+.nvc ul{margin:0;padding-left:20px;line-height:1.45}.nvc li{margin:4px 0}
 #fx,.xb{position:absolute;top:10px;right:12px;border:0;background:rgba(255,255,255,.12);color:var(--tx);border-radius:50%;width:34px;height:34px;font-size:1rem;cursor:pointer}
 .fh{display:flex;gap:14px;align-items:center;margin-bottom:6px;padding-right:36px}.fh span{font-size:.85rem;color:var(--mut)}
 .av{flex:none;width:56px;height:56px;border-radius:50%;background:var(--nav);color:var(--onc);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.2rem;text-transform:uppercase;box-shadow:0 4px 14px var(--g1)}
@@ -114,7 +116,9 @@ header img:hover{transform:rotate(-5deg) scale(1.05)}
   <p class="rgpd">Le fichier .xlsx exporté (un onglet par application, une ligne par saisie) est ta sauvegarde : garde-le sur ton appareil ou ton ENT, réimporte-le si tu changes d'appareil, et remets-le à ton professeur (il l'importe dans Mes Apps EPS). ⚠ Pense à l'exporter avant d'effacer tes données.</p></div>
 </main>
 <footer class="foot"><div><a href="confidentialite.html">Politique de confidentialité</a> · <a href="contact.html">Contact</a></div><p>Applis EPS Élèves · Vincent TOCQUIN – « VinZ Neuron »</p></footer>
-<p class="ver">Version <span id="ver"></span> · données stockées uniquement sur cet appareil</p>
+<div id="nvm" class="ov" hidden><div class="fc nvc"><button id="nvx" aria-label="Fermer" class="xb">✕</button>
+ <h3>✨ Nouveautés</h3><div id="nvb"></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn b" id="nvo">J'ai compris</button></div></div></div>
+<p class="ver"><a href="#" onclick="voirNouveautes();return false" title="Voir les nouveautés" style="color:inherit">Version <span id="ver"></span> ✨</a> · données stockées uniquement sur cet appareil</p>
 <script src="version.js"></script><script src="eps-core.js"></script><script src="eleve-core.js"></script>
 <script>
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -152,4 +156,14 @@ fetch('apps.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error('apps.js
  .catch(e=>{$('#apps').innerHTML='<p class="err">⚠ Catalogue illisible : '+esc(e.message)+'</p>'});
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js');
 refresh();
+/* Nouveautés : fenêtre affichée une fois après chaque mise à jour (nouveautes.json, plus récent en premier) */
+(()=>{const K='EPS_ELEVES_VERSION_VUE',cmp=(a,b)=>{a=a.split('.').map(Number);b=b.split('.').map(Number);for(let i=0;i<3;i++){const d=(a[i]||0)-(b[i]||0);if(d)return d}return 0};
+ const get=()=>{try{return localStorage.getItem(K)}catch(e){return null}},set=v=>{try{localStorage.setItem(K,v)}catch(e){}};
+ let N=null;const charger=()=>N||(N=fetch('nouveautes.json').then(r=>r.json()).then(L=>Array.isArray(L)?L:[]).catch(()=>[]));
+ const montrer=L=>{if(!L.length)return;$('#nvb').innerHTML=L.map(n=>`<h4>Version ${esc(n.v)}${n.date?` <small>· ${esc(new Date(n.date).toLocaleDateString('fr-FR'))}</small>`:''}</h4><ul>${(n.items||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`).join('');$('#nvm').hidden=false};
+ const fermer=()=>{$('#nvm').hidden=true;set(APP_VERSION)};
+ $('#nvo').onclick=$('#nvx').onclick=fermer;$('#nvm').onclick=e=>{if(e.target.id==='nvm')fermer()};
+ charger().then(L=>{L=L.filter(n=>cmp(n.v,APP_VERSION)<=0).sort((a,b)=>cmp(b.v,a.v));const vue=get();
+  if(!vue){montrer(L.slice(0,1))}else if(cmp(APP_VERSION,vue)>0){montrer(L.filter(n=>cmp(n.v,vue)>0))}else if(vue!==APP_VERSION)set(APP_VERSION)});
+ window.voirNouveautes=()=>charger().then(L=>montrer(L.filter(n=>cmp(n.v,APP_VERSION)<=0).sort((a,b)=>cmp(b.v,a.v)).slice(0,4)))})();
 </script></body></html>

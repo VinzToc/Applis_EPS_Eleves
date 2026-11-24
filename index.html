@@ -97,12 +97,13 @@ header img{border-radius:22%!important;box-shadow:0 0 0 2px rgba(255,255,255,.3)
 header img:hover{transform:rotate(-5deg) scale(1.05)}
 @media(max-width:520px){header h1{font-size:calc(2.05rem * .8)!important}}
 .hd h1{font-size:1.45rem!important}</style>
-</head><body>
+<style>.bkb{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:rgba(255,176,32,.14);border:1.5px solid rgba(255,176,32,.55);border-radius:16px;padding:12px 16px;margin-bottom:16px;font-weight:700;color:#ffe08a}.bkb[hidden]{display:none}</style></head><body>
 <header><img src="icons/logo.png" alt="Logo"><div><h1>Applis EPS <span class="tm">Élèves</span></h1><p>Tes outils pour les séances d'EPS</p></div></header>
 <main>
+ <div id="bkb" class="bkb" hidden><span id="bkt"></span><button class="btn b" id="bkn">💾 Sauvegarder</button></div>
  <div class="card"><h2>👤 Qui es-tu ?</h2>
-  <div id="imp"><p style="margin:0 0 8px;font-weight:700">J'ai déjà un fichier de sauvegarde</p>
-   <label class="btn b" style="display:inline-block">📂 Importer mon fichier (.xlsx)<input id="fi" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
+  <div id="imp"><p style="margin:0 0 8px;font-weight:700">J'ai déjà un fichier de sauvegarde (.xlsx ou .json)</p>
+   <label class="btn b" style="display:inline-block">📂 Importer mon fichier<input id="fi" type="file" accept=".xlsx,.json,application/json,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden></label>
    <div class="err" id="im"></div><p style="margin:12px 0 8px;font-weight:700">Première fois ? Enregistre-toi</p></div>
   <form id="idf"><label>Nom<input name="nom" autocomplete="family-name" required></label><label>Prénom<input name="prenom" autocomplete="given-name" required></label><label>Classe (ex. 3PM)<input name="classe" autocomplete="off"></label>
    <div class="err" id="idm"></div>
@@ -112,8 +113,9 @@ header img:hover{transform:rotate(-5deg) scale(1.05)}
  </div>
  <div class="card"><h2>🎒 Mes applis</h2><div class="grid" id="apps"></div></div>
  <div class="card" id="dc" hidden><h2>💾 Mes données</h2><ul class="dn" id="dl"></ul>
-  <div class="row"><button class="btn b" id="dx">⬇ Exporter mes données (.xlsx)</button><button class="btn r" id="dd">🗑 Effacer mes données</button></div>
+  <div class="row"><button class="btn b" id="dx">⬇ Exporter mes données (.xlsx)</button><button class="btn b" id="dj">💾 Sauvegarde complète (.json)</button><button class="btn r" id="dd">🗑 Effacer mes données</button></div>
   <p class="rgpd">Le fichier .xlsx exporté (un onglet par application, une ligne par saisie) est ta sauvegarde : garde-le sur ton appareil ou ton ENT, réimporte-le si tu changes d'appareil, et remets-le à ton professeur (il l'importe dans Mes Apps EPS). ⚠ Pense à l'exporter avant d'effacer tes données.</p></div>
+<p class="rgpd" id="stp" style="text-align:center"></p>
 </main>
 <footer class="foot"><div><a href="confidentialite.html">Politique de confidentialité</a> · <a href="contact.html">Contact</a></div><p>Applis EPS Élèves · Vincent TOCQUIN – « VinZ Neuron »</p></footer>
 <div id="nvm" class="ov" hidden><div class="fc nvc"><button id="nvx" aria-label="Fermer" class="xb">✕</button>
@@ -132,14 +134,33 @@ async function refresh(){const e=await ELEVE.courant();
  const D=await ELEVE.donnees(),ks=Object.keys(D).filter(k=>D[k].length);
  $('#dl').innerHTML=ks.map(k=>{const L=[...D[k]].sort((a,b)=>String(b.Date||'').localeCompare(String(a.Date||''))),cols=[...new Set(L.flatMap(x=>Object.keys(x)))];
   return `<li><details><summary>${esc(info(k).emoji||'🧩')} <b>${esc(info(k).nom)}</b> : ${D[k].length} saisie(s)</summary><div class="tw"><table><tr>${cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr>${L.map(x=>`<tr>${cols.map(c=>`<td>${esc(x[c])}</td>`).join('')}</tr>`).join('')}</table></div></details></li>`}).join('')||'<li>Rien d\'enregistré pour le moment. Ton fichier personnel est créé : utilise les applis, il se remplit automatiquement.</li>'}
+/* ───── Sauvegarde complète (.json) : identité + toutes les saisies de l'élève sur cet appareil ───── */
+const BK='EPS_DERNIERE_SAUVEGARDE_ELEVE',KEYS=['EPS_ELEVE_COURANT','EPS_ELEVE_SANS_ID'];
+async function bkBanner(){const b=$('#bkb');let t=+localStorage.getItem(BK)||0,a=t?Math.floor((Date.now()-t)/864e5):null,has=false;
+ try{const e=await ELEVE.courant();const D=e?await ELEVE.donnees():{};has=Object.values(D).some(x=>x.length)}catch(x){}
+ b.hidden=!(has&&(a===null||a>=7));if(!b.hidden)$('#bkt').textContent=a===null?'💾 Tu n’as pas encore fait de sauvegarde complète de tes données.':'💾 Dernière sauvegarde il y a '+a+' jours.'}
+async function bkSauver(){try{const d=await EPS.open(),L=await EPS.all(),ls={};KEYS.forEach(k=>{const v=localStorage.getItem(k);if(v!=null)ls[k]=v});
+ const o={format:'EPSEleves-sauvegarde-complete',v:1,date:new Date().toISOString(),eleves:L,stockage:ls};
+ const e=await ELEVE.courant(),a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(o)],{type:'application/json'}));a.download='Mes_donnees_EPS_sauvegarde_'+(e?e.nom.replace(/[^\w-]+/g,'_')+'_':'')+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();
+ try{localStorage.setItem(BK,Date.now())}catch(x){}bkBanner()}catch(x){alert('❌ '+x.message)}}
+async function bkRestaurer(f){const o=JSON.parse(await f.text());if(!o||o.format!=='EPSEleves-sauvegarde-complete'||!Array.isArray(o.eleves))throw new Error('Ce fichier n’est pas une sauvegarde complète de Applis EPS Élèves.');
+ if(!confirm('Restaurer cette sauvegarde du '+new Date(o.date).toLocaleString('fr-FR')+' ?\nTes données actuelles sur cet appareil seront remplacées.'))return null;
+ const d=await EPS.open();await new Promise((ok,ko)=>{const t=d.transaction('eleves','readwrite'),st=t.objectStore('eleves');st.clear();o.eleves.forEach(e=>st.put(e));t.oncomplete=ok;t.onerror=()=>ko(t.error)});
+ for(const k in o.stockage||{})if(KEYS.includes(k))try{localStorage.setItem(k,o.stockage[k])}catch(x){}
+ document.dispatchEvent(new Event('eleve-change'));return o.eleves.length}
+$('#dj').onclick=bkSauver;$('#bkn').onclick=bkSauver;
+async function bkStock(){const p=$('#stp');try{const ok=navigator.storage&&navigator.storage.persisted?await navigator.storage.persisted():null;if(ok===null)return;
+ p.innerHTML=ok?'🛡 Stockage protégé : ton navigateur n’effacera pas tes données automatiquement.':'⚠ Stockage non protégé : ton navigateur peut effacer tes données. Fais une sauvegarde de temps en temps. <button class="btn r" id="stb" style="padding:4px 10px;font-size:.78rem">🛡 Protéger</button>';
+ const b=$('#stb');if(b)b.onclick=async()=>{try{await navigator.storage.persist()}catch(x){}bkStock()}}catch(x){}}
+try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().then(bkStock)}catch(x){}bkStock();
 $('#idf').onsubmit=async ev=>{ev.preventDefault();const f=ev.target;try{await ELEVE.definir({nom:f.nom.value,prenom:f.prenom.value,classe:f.classe.value});f.reset();$('#idm').textContent=''}catch(x){$('#idm').textContent=x.message}};
 $('#idx').onclick=()=>{try{localStorage.setItem('EPS_ELEVE_SANS_ID','1')}catch(e){}document.dispatchEvent(new Event('eleve-change'))};
 $('#fi').onchange=async ev=>{const f=ev.target.files[0];ev.target.value='';if(!f)return;const m=$('#im');m.style.color='#ff8f8f';m.textContent='';
- try{const r=await ELEVE.importer(f);alert('✅ Sauvegarde restaurée pour '+r.eleve.prenom+' '+r.eleve.nom+(r.multi?'\n(le fichier contenait plusieurs élèves : le premier est sélectionné)':''))}catch(x){m.textContent='❌ '+x.message}};
+ try{if(/\.json$/i.test(f.name)){const n=await bkRestaurer(f);if(n!=null)alert('✅ Sauvegarde restaurée ('+n+' fiche(s)).');return}const r=await ELEVE.importer(f);alert('✅ Sauvegarde restaurée pour '+r.eleve.prenom+' '+r.eleve.nom+(r.multi?'\n(le fichier contenait plusieurs élèves : le premier est sélectionné)':''))}catch(x){m.textContent='❌ '+x.message}};
 $('#idc').onclick=()=>ELEVE.changer();
 $('#dx').onclick=()=>ELEVE.exporter().catch(e=>alert(e.message));
 $('#dd').onclick=async()=>{if(confirm('⚠ As-tu pensé à exporter ta sauvegarde (.xlsx) ?\nEffacer supprime définitivement tes données sur cet appareil.'))await ELEVE.supprimer()};
-document.addEventListener('eleve-change',refresh);addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+document.addEventListener('eleve-change',bkBanner);bkBanner();document.addEventListener('eleve-change',refresh);addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
 const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion']];
 const catKey=c=>{const k=(c||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();if(k==='tests'||k==='evaluations'||k==='evaluation')return'Evaluations';const f=CATS.find(([n])=>n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()===k);return f?f[0]:'Autres'};
 /* Tuiles regroupées par catégorie : appli « vedette » en tête, sections dans l'ordre de CATS, tuiles inactives à la fin */

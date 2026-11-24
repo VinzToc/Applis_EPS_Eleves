@@ -1,5 +1,14 @@
 [
  {
+  "v": "1.8.0",
+  "date": "2026-11-24",
+  "items": [
+   "Nouvelle « Sauvegarde complète (.json) » dans « Mes données » : un seul fichier garde ton identité et toutes tes saisies ; tu peux le restaurer au même endroit que ton ancien fichier .xlsx (sur ta tablette ou un autre appareil).",
+   "Un rappel s'affiche en haut si tu n'as pas sauvegardé tes données depuis 7 jours.",
+   "Indicateur « Stockage protégé » avec un bouton pour demander au navigateur de ne pas effacer tes données."
+  ]
+ },
+ {
   "v": "1.7.0",
   "date": "2026-11-23",
   "items": [

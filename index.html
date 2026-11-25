@@ -117,7 +117,7 @@ header img:hover{transform:rotate(-5deg) scale(1.05)}
   <p class="rgpd">Le fichier .xlsx exporté (un onglet par application, une ligne par saisie) est ta sauvegarde : garde-le sur ton appareil ou ton ENT, réimporte-le si tu changes d'appareil, et remets-le à ton professeur (il l'importe dans Mes Apps EPS). ⚠ Pense à l'exporter avant d'effacer tes données.</p></div>
 <p class="rgpd" id="stp" style="text-align:center"></p>
 </main>
-<footer class="foot"><div><a href="confidentialite.html">Politique de confidentialité</a> · <a href="contact.html">Contact</a></div><p>Applis EPS Élèves · Vincent TOCQUIN – « VinZ Neuron »</p></footer>
+<div id="eps-bandeau-ancre"></div>
 <div id="nvm" class="ov" hidden><div class="fc nvc"><button id="nvx" aria-label="Fermer" class="xb">✕</button>
  <h3>✨ Nouveautés</h3><div id="nvb"></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn b" id="nvo">J'ai compris</button></div></div></div>
 <p class="ver"><a href="#" onclick="voirNouveautes();return false" title="Voir les nouveautés" style="color:inherit">Version <span id="ver"></span> ✨</a> · données stockées uniquement sur cet appareil</p>
@@ -187,4 +187,5 @@ refresh();
  charger().then(L=>{L=L.filter(n=>cmp(n.v,APP_VERSION)<=0).sort((a,b)=>cmp(b.v,a.v));const vue=get();
   if(!vue){montrer(L.slice(0,1))}else if(cmp(APP_VERSION,vue)>0){montrer(L.filter(n=>cmp(n.v,vue)>0))}else if(vue!==APP_VERSION)set(APP_VERSION)});
  window.voirNouveautes=()=>charger().then(L=>montrer(L.filter(n=>cmp(n.v,APP_VERSION)<=0).sort((a,b)=>cmp(b.v,a.v)).slice(0,4)))})();
-</script></body></html>
+</script><script src="footer.js" data-pdc="eleve" defer></script>
+</body></html>

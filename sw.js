@@ -1,5 +1,5 @@
 importScripts('version.js');
-const V='applis-eps-eleves-v'+APP_VERSION,F=['./', 'version.js', 'index.html', 'eps-core.js', 'eleve-core.js', 'apps.json', 'nouveautes.json', 'manifest.webmanifest', 'style.css', 'contact.html', 'confidentialite.html', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/logo.png'];
+const V='applis-eps-eleves-v'+APP_VERSION,F=['./', 'version.js', 'index.html', 'eps-core.js', 'eleve-core.js', 'apps.json', 'nouveautes.json', 'footer.js', 'manifest.webmanifest', 'style.css', 'contact.html', 'confidentialite.html', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/logo.png'];
 const T=2500; // si le réseau ne répond pas en 2,5 s (wifi sans Internet, borne coupée…), on sert tout de suite la copie hors ligne
 const net=r=>new Promise((ok,ko)=>{const t=setTimeout(()=>ko(new Error('timeout')),T);fetch(r,{cache:'no-cache'}).then(x=>{clearTimeout(t);ok(x)},e=>{clearTimeout(t);ko(e)})});
 // Installation : chaque fichier est chargé séparément ; un fichier manquant ne bloque plus l'installation (donc le mode hors ligne).

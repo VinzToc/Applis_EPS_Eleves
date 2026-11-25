@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.9.0",
+  "date": "2026-11-25",
+  "items": [
+   "Nouveau bandeau en bas de page : logo à côté des liens, plus compact, avec la politique de confidentialité et le contact.",
+   "Politique de confidentialité mise à jour (sauvegarde complète, services externes)."
+  ]
+ },
+ {
   "v": "1.8.1",
   "date": "2026-11-25",
   "items": [

@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.10.0",
+  "date": "2026-11-25",
+  "items": [
+   "Les polices et outils des applications sont hébergés avec elles : plus aucun appel à Google ni à un service externe.",
+   "Politique de confidentialité mise à jour."
+  ]
+ },
+ {
   "v": "1.9.0",
   "date": "2026-11-25",
   "items": [

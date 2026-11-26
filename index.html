@@ -161,7 +161,7 @@ $('#idc').onclick=()=>ELEVE.changer();
 $('#dx').onclick=()=>ELEVE.exporter().catch(e=>alert(e.message));
 $('#dd').onclick=async()=>{if(confirm('⚠ As-tu pensé à exporter ta sauvegarde (.xlsx) ?\nEffacer supprime définitivement tes données sur cet appareil.'))await ELEVE.supprimer()};
 document.addEventListener('eleve-change',bkBanner);bkBanner();document.addEventListener('eleve-change',refresh);addEventListener('focus',refresh);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
-const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion']];
+const CATS=[['Outils','⏱️ Outils de séance'],['Performances','📏 Performances'],['Réalisations','🤸 Réalisations'],['Projets','🎯 Projets'],['Evaluations','📝 Évaluations et tests'],['Statistiques','📊 Statistiques'],['Gestion','🗂️ Gestion'],['AS-UNSS','🏅 AS – UNSS']];
 const catKey=c=>{const k=(c||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();if(k==='tests'||k==='evaluations'||k==='evaluation')return'Evaluations';const f=CATS.find(([n])=>n.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase()===k);return f?f[0]:'Autres'};
 /* Tuiles regroupées par catégorie : appli « vedette » en tête, sections dans l'ordre de CATS, tuiles inactives à la fin */
 function sections(el,T,tf,vide){const on=T.filter(a=>a.url),off=T.filter(a=>!a.url),ved=on.filter(a=>a.vedette),reste=on.filter(a=>!a.vedette);

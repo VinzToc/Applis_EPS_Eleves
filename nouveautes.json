@@ -1,5 +1,13 @@
 [
  {
+  "v": "1.10.3",
+  "date": "2026-11-26",
+  "items": [
+   "Icônes des applications détourées (fond transparent) : TabaTimer, ChronoMulti, LancerPerf, BallStar et StepCarnet (nouveau logo).",
+   "Pour voir la nouvelle icône sur l'écran d'accueil, désinstaller puis réinstaller l'application."
+  ]
+ },
+ {
   "v": "1.10.0",
   "date": "2026-11-25",
   "items": [

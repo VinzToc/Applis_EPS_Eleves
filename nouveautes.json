@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.15.5",
+  "date": "2026-11-28",
+  "items": [
+   "Mon AS : sur l'onglet « Ma carte d'AS », un bouton affiche le QR code de la carte en plein écran pour le présenter au professeur."
+  ]
+ },
+ {
   "v": "1.15.4",
   "date": "2026-11-28",
   "items": [

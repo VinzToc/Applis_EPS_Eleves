@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.15.6",
+  "date": "2026-11-28",
+  "items": [
+   "Mon AS : la carte d'AS n'est plus proposée en image ; elle se présente directement depuis l'application (le PDF à imprimer reste disponible)."
+  ]
+ },
+ {
   "v": "1.15.5",
   "date": "2026-11-28",
   "items": [

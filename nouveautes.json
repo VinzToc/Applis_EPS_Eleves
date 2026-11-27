@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.15.1",
+  "date": "2026-11-28",
+  "items": [
+   "Mon AS : QR code d'inscription plus simple, donc plus facile à scanner par le professeur. Fermer puis rouvrir l'application pour obtenir la mise à jour."
+  ]
+ },
+ {
   "v": "1.15.0",
   "date": "2026-11-27",
   "items": [

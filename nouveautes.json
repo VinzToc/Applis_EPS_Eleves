@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.13.0",
+  "date": "2026-11-27",
+  "items": [
+   "Mon AS : bouton « Enregistrer mon inscription », résumé non modifiable, paiement de la cotisation en ligne, dossier PDF, carte d'AS dans un onglet dédié."
+  ]
+ },
+ {
   "v": "1.12.2",
   "date": "2026-11-27",
   "items": [

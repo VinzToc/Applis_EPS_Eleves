@@ -1,5 +1,12 @@
 [
  {
+  "v": "1.15.0",
+  "date": "2026-11-27",
+  "items": [
+   "Nouvelle appli TournoiTerrain : gère le tournoi de ta poule (matchs, arbitre, score, observation, classement) et renvoie les résultats au professeur par QR code."
+  ]
+ },
+ {
   "v": "1.14.0",
   "date": "2026-11-27",
   "items": [
